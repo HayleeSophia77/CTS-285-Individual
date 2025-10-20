@@ -10,9 +10,9 @@ This course balances entertainment with rigorous skill development. The satirica
 - Teresa  
 - Aryan  
 - Justin  
-- James  
 
 **GitHub Link:**  
+
 🔗 [https://discord.gg/AzVfQqesNU](https://discord.gg/AzVfQqesNU)
 
 ---
