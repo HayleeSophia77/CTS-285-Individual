@@ -3,7 +3,7 @@ AlgoCratic Futures™ is an immersive educational experience that teaches softwa
 
 This course balances entertainment with rigorous skill development. The satirical corporate dystopia serves as a vehicle for stress inoculation, teaching students to thrive under pressure while maintaining technical standards. Students learn to navigate contradictory requirements, changing specifications, and resource constraints—exactly the challenges they'll face in professional software development environments.
 
-# CTS-285-0001 Group 3
+# CTS-285, Group 3
 **Group Members:**  
 - Haylee  
 - Kaheel  
