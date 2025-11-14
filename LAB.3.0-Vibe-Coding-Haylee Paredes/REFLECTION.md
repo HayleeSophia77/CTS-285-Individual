@@ -22,12 +22,11 @@ a page load. When I actually tried to make the SPA version, I noticed it was mor
 than I had thought it would be. The regular version of my dice game was way simpler since
 everything was in one HTML file that I could just open and play. For my game, the original
 version felt better because it was easy to test, change, and understand. However, I can see how an
-SPA would make more sense for a bigger project that has multiple pages or lots of data updates.
-
-If I were building something larger, I would probably use React or another framework to keep
+SPA would make more sense for a bigger project that has multiple pages or lots of data updates. If I were building something larger, I would probably use React or another framework to keep
 the project more organized and scalable.
 
 The “Vibe Coding Ceiling”:
+
 I did end up reaching a point where the AI couldn't further help me, especially when I
 tried to understand why certain parts of the SPA didn't run correctly. It kept giving suggestions
 that didn't match what was happening in my code, and that's when I realized I needed to actually
