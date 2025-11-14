@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Dice Game</title>
+<style>
+  :root {
+    --bg: #0f1724;
+    --card: #0b1220;
+    --accent: #7dd3fc;
+    --muted: #94a3b8;
+    --pill: #e6f7ff22;
+  }
+
+  html,body {
+    height: 100%;
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#071026 0%, #0f1724 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 880px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 8px 30px rgba(2,6,23,0.7);
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+  h1 { margin:0; font-size:1.25rem; }
+  p.lead { margin:0; color:var(--muted); font-size:0.95rem; }
+
+  .game {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 18px;
+  }
+
+  .play-area {
+    background: rgba(255,255,255,0.02);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .dice-row {
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+
+  /* DICE FIX: make dice dark with bright dots */
+  .die {
+    width:110px;
+    height:110px;
+    background: linear-gradient(180deg,#1e293b 0%, #0f172a 100%);
+    border-radius:12px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    padding:10px;
+    box-sizing:border-box;
+    align-content:center;
+    justify-items:center;
+  }
+
+  .pip {
+    width:16px;
+    height:16px;
+    background:#f8fafc; /* light pip color for dark dice */
+    border-radius:50%;
+    box-shadow:0 0 4px rgba(255,255,255,0.6);
+  }
+
+  .controls { margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; }
+  button {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.primary {
+    background: linear-gradient(90deg, rgba(125,211,252,0.12), rgba(125,211,252,0.08));
+    border: 1px solid rgba(125,211,252,0.22);
+    color: var(--accent);
+  }
+  button.ghost {
+    background: var(--pill);
+    color: var(--muted);
+  }
+
+  .scoreboard {
+    background: rgba(255,255,255,0.02);
+    border-radius: 10px;
+    padding: 18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .score-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 12px;
+    border-radius:8px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .label { color:var(--muted); font-size:0.9rem; }
+  .value { font-weight:700; font-size:1.05rem; color:var(--accent); }
+
+  footer {
+    margin-top:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:var(--muted);
+    font-size:0.9rem;
+  }
+
+  @media (max-width: 820px) {
+    .game { grid-template-columns: 1fr; }
+    .die { width:90px; height:90px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="application" aria-label="Simple Dice Game">
+    <header>
+      <div>
+        <h1>Simple Dice Game</h1>
+        <p class="lead">Click "Roll" to roll two dice. The game shows the faces and keeps score (total, rolls, highest, average).</p>
+      </div>
+      <div class="small">Single file — open in any browser</div>
+    </header>
+
+    <div class="game">
+      <section class="play-area" aria-label="Play area">
+        <div class="dice-row" id="diceRow">
+          <!-- Dice elements will be created by JavaScript -->
+          <div id="die1" class="die" aria-hidden="true"></div>
+          <div id="die2" class="die" aria-hidden="true"></div>
+        </div>
+
+        <div id="lastValues" class="small" style="margin-top:12px;color:var(--muted)">Last roll: —</div>
+
+        <div class="controls" style="margin-top:14px;">
+          <button id="rollBtn" class="primary" aria-label="Roll dice">🎲 Roll</button>
+          <button id="resetBtn" class="ghost" aria-label="Reset game">Reset</button>
+          <button id="auto5" aria-label="Roll five times">Auto ×5</button>
+          <button id="auto10" aria-label="Roll ten times">Auto ×10</button>
+        </div>
+      </section>
+
+      <aside class="scoreboard" aria-label="Scoreboard">
+        <div class="score-row">
+          <div class="label">Total Score</div>
+          <div id="totalScore" class="value">0</div>
+        </div>
+        <div class="score-row">
+          <div class="label">Rolls</div>
+          <div id="rollCount" class="value">0</div>
+        </div>
+        <div class="score-row">
+          <div class="label">Last Roll</div>
+          <div id="lastRoll" class="value">—</div>
+        </div>
+        <div class="score-row">
+          <div class="label">Highest Roll</div>
+          <div id="highestRoll" class="value">—</div>
+        </div>
+        <div class="score-row">
+          <div class="label">Average per Roll</div>
+          <div id="average" class="value">—</div>
+        </div>
+
+        <div style="margin-top:auto; font-size:0.9rem; color:var(--muted)">
+          Tip: press "Auto ×5" or "Auto ×10" to roll multiple times quickly.
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div class="small">Made for learning — beginner-friendly code</div>
+      <div class="small">Have fun!</div>
+    </footer>
+  </div>
+
+  <script>
+    // Simple dice game - beginner-friendly JavaScript
+
+    // Keep score values here
+    var totalScore = 0;
+    var rollCount = 0;
+    var highestRoll = 0;
+
+    // Find elements
+    var die1El = document.getElementById('die1');
+    var die2El = document.getElementById('die2');
+    var rollBtn = document.getElementById('rollBtn');
+    var resetBtn = document.getElementById('resetBtn');
+    var auto5 = document.getElementById('auto5');
+    var auto10 = document.getElementById('auto10');
+
+    var totalScoreEl = document.getElementById('totalScore');
+    var rollCountEl = document.getElementById('rollCount');
+    var lastRollEl = document.getElementById('lastRoll');
+    var highestRollEl = document.getElementById('highestRoll');
+    var averageEl = document.getElementById('average');
+    var lastValuesEl = document.getElementById('lastValues');
+
+    // When page loads, initialize dice faces to blank/zero
+    renderDie(1, die1El);
+    renderDie(1, die2El);
+
+    // Event listeners
+    rollBtn.addEventListener('click', function() {
+      rollAndUpdate();
+    });
+
+    resetBtn.addEventListener('click', function() {
+      resetGame();
+    });
+
+    auto5.addEventListener('click', function() {
+      runMultipleRolls(5);
+    });
+
+    auto10.addEventListener('click', function() {
+      runMultipleRolls(10);
+    });
+
+    // Generates a random integer between min and max inclusive
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Roll two dice and update scoreboard
+    function rollAndUpdate() {
+      var a = randInt(1,6);
+      var b = randInt(1,6);
+
+      // Update dice visuals
+      renderDie(a, die1El);
+      renderDie(b, die2El);
+
+      var sum = a + b;
+      rollCount = rollCount + 1;
+      totalScore = totalScore + sum;
+      if (sum > highestRoll) { highestRoll = sum; }
+
+      // Update UI text
+      totalScoreEl.textContent = totalScore;
+      rollCountEl.textContent = rollCount;
+      lastRollEl.textContent = sum;
+      highestRollEl.textContent = highestRoll || '—';
+      averageEl.textContent = (rollCount === 0) ? '—' : ( (totalScore / rollCount).toFixed(2) );
+      lastValuesEl.textContent = 'Last roll: Die 1 = ' + a + ', Die 2 = ' + b + ' (sum: ' + sum + ')';
+    }
+
+    // Reset game to initial state
+    function resetGame() {
+      totalScore = 0;
+      rollCount = 0;
+      highestRoll = 0;
+
+      totalScoreEl.textContent = '0';
+      rollCountEl.textContent = '0';
+      lastRollEl.textContent = '—';
+      highestRollEl.textContent = '—';
+      averageEl.textContent = '—';
+      lastValuesEl.textContent = 'Last roll: —';
+
+      renderDie(1, die1El);
+      renderDie(1, die2El);
+    }
+
+    // Run N quick rolls (non-async looping for beginners):
+    // We perform them in a short timeout chain to let the UI update so visuals are visible.
+    function runMultipleRolls(n) {
+      // disable roll button while running
+      rollBtn.disabled = true;
+      auto5.disabled = true;
+      auto10.disabled = true;
+      resetBtn.disabled = true;
+
+      var i = 0;
+      function nextOnce() {
+        if (i >= n) {
+          // finished
+          rollBtn.disabled = false;
+          auto5.disabled = false;
+          auto10.disabled = false;
+          resetBtn.disabled = false;
+          return;
+        }
+        i = i + 1;
+        rollAndUpdate();
+        // small delay so user can see each roll; 180ms is short but visible
+        setTimeout(nextOnce, 600);
+      }
+      nextOnce();
+    }
+
+    // Renders a die face (1..6) into the given die element using 3x3 pip positions.
+    // This is beginner-friendly: we clear and append small "pip" divs into positions.
+    function renderDie(value, container) {
+      // Clear the die
+      container.innerHTML = '';
+
+      // Create a 3x3 grid of positions (row-major). Use data-index 0..8.
+      // We'll place pips where needed based on standard die faces.
+      var positions = [];
+      for (var i = 0; i < 9; i++) {
+        var slot = document.createElement('div');
+        slot.setAttribute('data-pos', i);
+        // the slot will accept a pip if needed; but keep it empty otherwise.
+        slot.style.width = '100%';
+        slot.style.height = '100%';
+        slot.style.display = 'flex';
+        slot.style.alignItems = 'center';
+        slot.style.justifyContent = 'center';
+        positions.push(slot);
+        container.appendChild(slot);
+      }
+
+      // Which positions should have pips for each face?
+      // Grid indexing:
+      // [0] [1] [2]
+      // [3] [4] [5]
+      // [6] [7] [8]
+      var faceMap = {
+        1: [4],
+        2: [0,8],
+        3: [0,4,8],
+        4: [0,2,6,8],
+        5: [0,2,4,6,8],
+        6: [0,2,3,5,6,8]
+      };
+
+      var pipPositions = faceMap[value] || [4];
+
+      // create pips and append into the correct positions
+      for (var j = 0; j < pipPositions.length; j++) {
+        var pip = document.createElement('div');
+        pip.className = 'pip dark';
+        // For accessibility, add aria-hidden to pips; the numeric values are shown elsewhere.
+        pip.setAttribute('aria-hidden', 'true');
+        positions[pipPositions[j]].appendChild(pip);
+      }
+
+      // Small accessible label
+      container.setAttribute('aria-label', 'Die showing ' + value);
+    }
+
+    // Small extra: keyboard support (space or Enter to roll)
+    document.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        // avoid triggering when focus is inside a text input (none here but safe)
+        if (document.activeElement && document.activeElement.tagName === 'INPUT') { return; }
+        e.preventDefault();
+        rollBtn.click();
+      }
+    });
+
+    // Initialization: show instructions in lastValues
+    lastValuesEl.textContent = 'Last roll: —';
+  </script>
+</body>
+</html>
