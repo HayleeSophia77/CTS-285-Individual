@@ -1,0 +1,32 @@
+Starting a sprint
+
+Group 3; Haylee, Teresa, Justin, James, Kaheel, Aryan
+
+User Stories:
+As a student, I want to use answer checker to check my math and make it a game.
+As a parent, I want my child to use the memory bank to help them practice problems that they have trouble with. 
+As a teacher, I want my students to test their knowledge on addition, subtraction, multiplication, and division through electro flash. 
+
+Items that have been worked on:
+Created the answer checker, memory bank, electro flash, and the main menu.
+
+Backlog(items not worked on):
+We need to fix memory bank and define the answer checker, memory bank, and electro flash in/to the main menu file named DataMon.
+
+
+
+ 
+User Stories Examples:
+(in the form: "As a <role>, I want to <action>, so that I can <reason>."
+As a student, I want to use Answer Checker to see if my arithmentic is correct.
+As a parent, I want my child to use Answer Checker to get better at math.)
+
+Write Stories For:
+- Answer Checker
+- Memory Bank
+- Number Guesser <OR> some other feature (Starmath Race, Electro Flash, Wipe Out, Force out, Missing Number "Box" Problems, Orbit Math, First Out, Space Ball, Astro Race, and Antimath Maze)
+
+Then start coming up with tasks
+- User stories are "issues"
+- other tasks are also "issues"
+
