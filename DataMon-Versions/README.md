@@ -21,3 +21,37 @@ The section "Hints for Parents and Teachers" in the PDF gives an idea of the cus
 You have already written the user stories for this program. In Module Three we'll begin to use the Agile process to run the development teams to write the actual program.
 
 My expectation is that you will be able to get Answer Checker working in the first 2 week iteration, and Memory Bank in the second. Ideally you'll get Number Guesser working by then as well.
+
+# I am apart of CTS-285, Group 3
+**Group Members:**  
+* Haylee - [@HayleeSophia77](https://github.com/HayleeSophia77)
+* Kaheel - [@KaheelR](https://github.com/KaheelR)
+* Teresa - [@thearn1981](https://github.com/thearn1981)
+* Aryan - [@aryan-kandula](https://github.com/aryan-kandula)
+* Justin - [@jhlarsen](https://github.com/jhlarsen)
+
+**GitHub Link:**  
+
+🔗 [https://discord.gg/AzVfQqesNU](https://discord.gg/AzVfQqesNU)
+
+---
+
+## What Worked  
+- The board was the most helpful tool for visualizing the stories and understanding how they align with the project steps.
+  
+---
+
+## What Did Not Work  
+- Lack of communication and unclear understanding of tasks caused some setbacks.
+  
+---
+
+## What to Do Differently  
+- Improve communication between group members through Discord.  
+- Enhance GitHub sharing practices.  
+- Use the board with a different post structure to make it easier to follow.
+
+---
+
+## Next Steps  
+- Test the code thoroughly.  
