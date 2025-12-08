@@ -22,7 +22,7 @@ You have already written the user stories for this program. In Module Three we'l
 
 My expectation is that you will be able to get Answer Checker working in the first 2 week iteration, and Memory Bank in the second. Ideally you'll get Number Guesser working by then as well.
 
-# I am apart of CTS-285, Group 3
+# CTS-285, Group 3
 **Group Members:**  
 * Haylee - [@HayleeSophia77](https://github.com/HayleeSophia77)
 * Kaheel - [@KaheelR](https://github.com/KaheelR)
