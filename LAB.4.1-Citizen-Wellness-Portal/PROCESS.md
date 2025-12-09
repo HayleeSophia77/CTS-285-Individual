@@ -1,4 +1,4 @@
-# Citizen Wellness Portal™ – PROCESS
+# Citizen Wellness Portal – PROCESS
 
 ## 1. What I Knew Before
 
@@ -28,18 +28,17 @@ Session state is key for authentication since Streamlit reruns everything. I nee
 
 **What I changed in my code:**
 
-* Set up a users dict in st.session_state to store credentials
-* Created session state keys for authenticated, current_user, metrics, and view
-* Split everything into functions so it's not just one giant mess:
+- Set up a users dict in st.session_state to store credentials
+- Created session state keys for authenticated, current_user, metrics, and view
+- Split everything into functions so it's not just one giant mess:
 
-* init_session_state()
-* register_user()
-* check_credentials()
-* show_registration_form()
-* show_login_form()
-* show_dashboard()
-* logout()
-
+- init_session_state()
+- register_user()
+- check_credentials()
+- show_registration_form()
+- show_login_form()
+- show_dashboard()
+- logout()
 
 * Got the dashboard working with those 4 "Algorithmic Satisfaction Metrics" with progress bars and a status message
 
@@ -53,7 +52,7 @@ Session state is key for authentication since Streamlit reruns everything. I nee
 
 **The fix:**
 
-So I made an init_session_state() function that sets up all the default keys once. Then I used st.session_state["view"] to track whether we're showing login or registration. The Login/Register buttons just update that view state instead of trying to show both screens at the same time. Way cleaner.
+So I made an init_session_state() function that sets up all the default keys once. Then I used st.session_state to track whether we're showing login or registration. The Login/Register buttons just update that view state instead of trying to show both screens at the same time. Way cleaner.
 
 ---
 
@@ -81,24 +80,24 @@ Added a placeholder at the top of the registration screen for messages. After so
 
 1. Managing authentication state properly
 
-* Even though I'd used Streamlit before, I hadn't dealt with login/logout flows
-* Had to think through what needed to persist (authenticated status, username, which screen to show)
-* Learned to initialize everything in one place with init_session_state() to avoid key errors
+- Even though I'd used Streamlit before, I hadn't dealt with login/logout flows
+- Had to think through what needed to persist (authenticated status, username, which screen to show)
+- Learned to initialize everything in one place with init_session_state() to avoid key errors
 
 2. Keeping track of which screen to show
 
-* The app kept flipping between login and registration at random
-* Fixed it by adding st.session_state and actually using it consistently in main() to control which form renders
+- The app kept flipping between login and registration at random
+- Fixed it by adding st.session_state and actually using it consistently in main() to control which form renders
 
 3. Everything needed two clicks to work
 
-* First click would show success messages but wouldn't actually change the screen until you clicked something else
-* Turned out I needed to use st.rerun() right after updating authentication stuff so it immediately re-renders with the new state
+- First click would show success messages but wouldn't actually change the screen until you clicked something else
+- Turned out I needed to use st.rerun() right after updating authentication stuff so it immediately re-renders with the new state
 
 4. Registration UX was confusing
 
-* Just staying on the registration page after success was technically fine but felt broken
-* Added the countdown redirect thing which makes it way more obvious what's happening
+- Just staying on the registration page after success was technically fine but felt broken
+- Added the countdown redirect thing which makes it way more obvious what's happening
 
 ---
 
@@ -106,22 +105,22 @@ Added a placeholder at the top of the registration screen for messages. After so
 
 Streamlit:
 
-* Single Python script that reruns on interactions
-* UI built directly in Python, no HTML needed
-* State managed through st.session_state
-* Super fast for dashboards and internal tools
-* What I prefer working with
+- Single Python script that reruns on interactions
+- UI built directly in Python, no HTML needed
+- State managed through st.session_state
+- Super fast for dashboards and internal tools
+- What I prefer working with
 
 Flask:
 
-* Route-based with @app.route decorators
-* Uses HTML templates (Jinja)
-* More traditional web framework approach
-* Haven't used it much
+- Route-based with @app.route decorators
+- Uses HTML templates (Jinja)
+- More traditional web framework approach
+- Haven't used it much
 
 What surprised me about this project:
 
-* How much session state management matters for auth flows—more complex than my previous Streamlit projects
-* How easy it was to make something that looks decent without touching HTML/CSS
-* The st.rerun() trick for fixing the double-click bug—that wasn't obvious at first
-* That I could build this whole login/registration/dashboard system pretty quickly once I figured out the session state patterns
+- How much session state management matters for auth flows—more complex than my previous Streamlit projects
+- How easy it was to make something that looks decent without touching HTML/CSS
+- The st.rerun() trick for fixing the double-click bug—that wasn't obvious at first
+- That I could build this whole login/registration/dashboard system pretty quickly once I figured out the session state patterns
