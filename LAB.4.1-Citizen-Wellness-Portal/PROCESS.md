@@ -124,3 +124,5 @@ What surprised me about this project:
 - How easy it was to make something that looks decent without touching HTML/CSS
 - The st.rerun() trick for fixing the double-click bug—that wasn't obvious at first
 - That I could build this whole login/registration/dashboard system pretty quickly once I figured out the session state patterns
+
+# Grade
